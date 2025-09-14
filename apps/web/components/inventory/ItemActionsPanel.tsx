@@ -34,7 +34,7 @@ export const ItemActionsPanel: React.FC<ItemActionsPanelProps> = ({ item }) => {
           </div>
           <Input id="listingPrice" type="number" defaultValue={item.listingPrice} />
         </div>
-        
+
         <div>
           <Label className="mb-2 block">Select Markets</Label>
           <div className="space-y-3 rounded-lg border border-white/10 bg-black/20 p-4">
@@ -57,7 +57,7 @@ export const ItemActionsPanel: React.FC<ItemActionsPanelProps> = ({ item }) => {
             )}
           </div>
         </div>
-        
+
         <Button size="lg" className="w-full">
           List on Selected Markets
         </Button>
@@ -65,4 +65,3 @@ export const ItemActionsPanel: React.FC<ItemActionsPanelProps> = ({ item }) => {
     </Card>
   );
 };
-

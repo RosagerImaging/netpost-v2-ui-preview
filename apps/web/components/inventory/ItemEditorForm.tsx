@@ -5,13 +5,14 @@ import { Input } from '@repo/ui/input';
 import { Textarea } from '@repo/ui/textarea';
 import { Button } from '@repo/ui/button';
 import { Sparkles } from 'lucide-react';
-import { ItemImageGallery } from './image-gallery';
+import { ItemImageGallery } from '../item-detail-editor/image-gallery';
 
 interface ItemEditorFormProps {
   item: {
     title: string;
     sku: string;
     purchasePrice: number;
+    listingPrice: number;
     description: string;
     images: string[];
   };
@@ -43,6 +44,12 @@ export const ItemEditorForm: React.FC<ItemEditorFormProps> = ({ item }) => {
               <Input id="purchasePrice" type="number" defaultValue={item.purchasePrice} />
             </div>
           </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="grid w-full items-center gap-1.5">
+              <Label htmlFor="listingPrice">Listing Price ($)</Label>
+              <Input id="listingPrice" type="number" defaultValue={item.listingPrice} />
+            </div>
+          </div>
           <div className="grid w-full items-center gap-1.5">
             <div className="flex items-center justify-between">
               <Label htmlFor="description">Description</Label>
@@ -58,4 +65,3 @@ export const ItemEditorForm: React.FC<ItemEditorFormProps> = ({ item }) => {
     </div>
   );
 };
-

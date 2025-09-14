@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { cn } from '@/lib/utils';
+import { cn } from '@repo/lib';
 
 interface ItemImageGalleryProps {
   images: string[];
@@ -13,7 +13,7 @@ interface ItemImageGalleryProps {
  * A component to display an item's image gallery with a primary image and thumbnails.
  */
 export const ItemImageGallery: React.FC<ItemImageGalleryProps> = ({ images, title }) => {
-  const [primaryImage, setPrimaryImage] = useState(images[0]);
+  const [primaryImage, setPrimaryImage] = useState(images[0] || '');
 
   if (!images || images.length === 0) {
     return (

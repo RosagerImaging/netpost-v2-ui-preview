@@ -6,7 +6,7 @@ export default function HomePage() {
     <div className="w-full h-full">
       <div className="border-b border-gray-800 pb-4">
         <h1 className="text-3xl font-bold tracking-tight text-primary-text">Dashboard</h1>
-        <p className="mt-2 text-secondary-text">Welcome back, here's a summary of your business.</p>
+        <p className="mt-2 text-secondary-text">Welcome back, here&apos;s a summary of your business.</p>
       </div>
 
       <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

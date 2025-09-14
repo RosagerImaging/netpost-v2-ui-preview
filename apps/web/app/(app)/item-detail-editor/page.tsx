@@ -24,8 +24,13 @@ const mockItem = {
 /**
  * The main page for viewing and editing a single inventory item.
  */
-export default function ItemDetailPage({ params }: { params: { itemId: string } }) {
-  // In a real app, you would fetch item data based on params.itemId
+export default async function ItemDetailPage({
+  params
+}: {
+  params: Promise<{ itemId: string }>
+}) {
+  const { itemId } = await params;
+  // In a real app, you would fetch item data based on itemId
   const item = mockItem;
 
   return (
