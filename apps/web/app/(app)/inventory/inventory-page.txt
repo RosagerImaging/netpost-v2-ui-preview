@@ -1,0 +1,184 @@
+import * as React from "react"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { Input } from "@/components/ui/input"
+import { MoreHorizontal, PlusCircle, Search } from "lucide-react"
+import Image from "next/image"
+
+// --- TYPES AND MOCK DATA ---
+type Status = "Draft" | "Listed" | "Sold";
+
+type InventoryItem = {
+  id: string;
+  imageUrl: string;
+  title: string;
+  sku: string;
+  purchasePrice: number;
+  status: Status;
+};
+
+const inventoryItems: InventoryItem[] = [
+  {
+    id: "1",
+    imageUrl: "https://placehold.co/64x64/1C1C1E/E5E5E5?text=IMG",
+    title: "Vintage Leather Jacket",
+    sku: "VLJ-001",
+    purchasePrice: 45.00,
+    status: "Listed",
+  },
+  {
+    id: "2",
+    imageUrl: "https://placehold.co/64x64/1C1C1E/E5E5E5?text=IMG",
+    title: "Blue Denim Jeans",
+    sku: "BDJ-002",
+    purchasePrice: 22.50,
+    status: "Listed",
+  },
+  {
+    id: "3",
+    imageUrl: "https://placehold.co/64x64/1C1C1E/E5E5E5?text=IMG",
+    title: "Red Silk Scarf",
+    sku: "RSS-003",
+    purchasePrice: 8.00,
+    status: "Sold",
+  },
+  {
+    id: "4",
+    imageUrl: "https://placehold.co/64x64/1C1C1E/E5E5E5?text=IMG",
+    title: "Retro Sunglasses",
+    sku: "RSG-004",
+    purchasePrice: 12.75,
+    status: "Draft",
+  },
+  {
+    id: "5",
+    imageUrl: "https://placehold.co/64x64/1C1C1E/E5E5E5?text=IMG",
+    title: "Classic White Tee",
+    sku: "CWT-005",
+    purchasePrice: 5.50,
+    status: "Sold",
+  },
+];
+
+// --- HELPER COMPONENT ---
+const StatusBadge = ({ status }: { status: Status }) => {
+  const variant: "primary" | "success" | "default" =
+    status === "Listed" ? "primary" : status === "Sold" ? "success" : "default";
+  return <Badge variant={variant}>{status}</Badge>;
+};
+
+// --- MAIN PAGE COMPONENT ---
+export default function InventoryPage() {
+  return (
+    <div className="w-full space-y-6">
+      {/* Page Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight text-primary-text">Inventory</h1>
+          <p className="mt-1 text-secondary-text">Manage your items for sale.</p>
+        </div>
+        <Button>
+          <PlusCircle className="mr-2 h-4 w-4" />
+          Add New Item
+        </Button>
+      </div>
+
+      {/* Filter and Search Bar */}
+      <div className="flex items-center space-x-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-secondary-text" />
+          <Input placeholder="Search by item title..." className="pl-10" />
+        </div>
+        <Select>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Filter by status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All</SelectItem>
+            <SelectItem value="draft">Draft</SelectItem>
+            <SelectItem value="listed">Listed</SelectItem>
+            <SelectItem value="sold">Sold</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+      
+      {/* Inventory Table in a Card */}
+      <div className="rounded-2xl border border-white/10 bg-white/5 shadow-lg backdrop-blur-md">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[400px]">Item</TableHead>
+              <TableHead>SKU</TableHead>
+              <TableHead>Purchase Price</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {inventoryItems.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>
+                  <div className="flex items-center space-x-4">
+                    <Image
+                      src={item.imageUrl}
+                      alt={item.title}
+                      width={64}
+                      height={64}
+                      className="rounded-md object-cover"
+                    />
+                    <span className="font-medium text-primary-text">{item.title}</span>
+                  </div>
+                </TableCell>
+                <TableCell className="text-secondary-text">{item.sku}</TableCell>
+                <TableCell className="text-secondary-text">
+                  ${item.purchasePrice.toFixed(2)}
+                </TableCell>
+                <TableCell>
+                  <StatusBadge status={item.status} />
+                </TableCell>
+                <TableCell className="text-right">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" size="icon">
+                        <MoreHorizontal className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem>Edit</DropdownMenuItem>
+                      {item.status !== 'Listed' && <DropdownMenuItem>List Now</DropdownMenuItem>}
+                      <DropdownMenuItem className="text-red-400 focus:bg-red-600/20 focus:text-red-400">
+                        Delete
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    </div>
+  );
+}
+

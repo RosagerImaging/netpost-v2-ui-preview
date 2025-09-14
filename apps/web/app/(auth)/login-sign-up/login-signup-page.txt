@@ -1,0 +1,153 @@
+"use client";
+
+import React, { useState, FormEvent, FC } from 'react';
+import { AtSign, Lock, User, Eye, EyeOff } from 'lucide-react';
+import { cn } from '@/lib/utils'; // Assuming you have this utility
+
+// --- UI Component Definitions (Recreated for single-file implementation) ---
+
+// Label Component
+const Label: FC<React.LabelHTMLAttributes<HTMLLabelElement>> = ({ className, ...props }) => (
+  <label className={cn("text-sm font-medium text-primary-text leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70", className)} {...props} />
+);
+
+// Input Component with Icon Support
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  icon?: React.ReactNode;
+}
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ className, type, icon, ...props }, ref) => {
+    const [showPassword, setShowPassword] = useState(false);
+    const isPassword = type === 'password';
+
+    const handleTogglePassword = () => {
+        setShowPassword(prev => !prev);
+    }
+
+    return (
+      <div className="relative">
+        {icon && <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-secondary-text">{icon}</div>}
+        <input
+          type={isPassword && showPassword ? 'text' : type}
+          className={cn(
+            "flex h-10 w-full rounded-md border border-white/20 bg-black/20 px-3 py-2 text-sm text-primary-text ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-secondary-text/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-interactive focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+            icon ? "pl-10" : "",
+            isPassword ? "pr-10" : "",
+            className
+          )}
+          ref={ref}
+          {...props}
+        />
+        {isPassword && (
+            <button type="button" onClick={handleTogglePassword} className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-secondary-text cursor-pointer">
+                {showPassword ? <EyeOff/> : <Eye />}
+            </button>
+        )}
+      </div>
+    );
+  }
+);
+Input.displayName = "Input";
+
+// Button Component
+const Button: FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({ className, ...props }) => (
+  <button
+    className={cn(
+      "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+      "h-10 px-4 py-2 w-full",
+      "bg-primary-interactive text-black hover:bg-primary-interactive/90",
+      className
+    )}
+    {...props}
+  />
+);
+
+// --- Main Page Component ---
+
+export default function LoginPage() {
+  const [formType, setFormType] = useState<'login' | 'signup'>('login');
+
+  const handleLoginSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData.entries());
+    console.log("Login form submitted:", data);
+  };
+
+  const handleSignupSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData.entries());
+    console.log("Sign up form submitted:", data);
+  };
+
+  const toggleFormType = () => {
+    setFormType(prev => (prev === 'login' ? 'signup' : 'login'));
+  };
+
+  return (
+    <div className="flex min-h-screen w-full items-center justify-center bg-[#111111] p-4">
+      <div className="w-full max-w-md rounded-2xl border border-white/10 bg-white/10 p-8 shadow-2xl backdrop-blur-md">
+        {formType === 'login' ? (
+          // --- Login Form ---
+          <div className="space-y-6">
+            <div className="text-center">
+              <h1 className="text-3xl font-bold text-primary-text">Welcome Back</h1>
+              <p className="text-secondary-text">Sign in to continue to your dashboard.</p>
+            </div>
+            <form onSubmit={handleLoginSubmit} className="space-y-4">
+              <div className="grid w-full items-center gap-1.5">
+                <Label htmlFor="email-login">Email</Label>
+                <Input type="email" id="email-login" name="email" placeholder="you@example.com" required icon={<AtSign />} />
+              </div>
+              <div className="grid w-full items-center gap-1.5">
+                <Label htmlFor="password-login">Password</Label>
+                <Input type="password" id="password-login" name="password" placeholder="••••••••" required icon={<Lock />} />
+              </div>
+              <div className="text-right text-sm">
+                <a href="#" className="font-medium text-primary-interactive hover:underline">Forgot Password?</a>
+              </div>
+              <Button type="submit">Sign In</Button>
+            </form>
+            <p className="text-center text-sm text-secondary-text">
+              Don&apos;t have an account?{' '}
+              <button onClick={toggleFormType} className="font-medium text-primary-interactive hover:underline">
+                Sign Up
+              </button>
+            </p>
+          </div>
+        ) : (
+          // --- Sign-up Form ---
+          <div className="space-y-6">
+            <div className="text-center">
+              <h1 className="text-3xl font-bold text-primary-text">Create an Account</h1>
+              <p className="text-secondary-text">Start your reselling journey today.</p>
+            </div>
+            <form onSubmit={handleSignupSubmit} className="space-y-4">
+              <div className="grid w-full items-center gap-1.5">
+                <Label htmlFor="email-signup">Email</Label>
+                <Input type="email" id="email-signup" name="email" placeholder="you@example.com" required icon={<AtSign />} />
+              </div>
+              <div className="grid w-full items-center gap-1.5">
+                <Label htmlFor="password-signup">Password</Label>
+                <Input type="password" id="password-signup" name="password" placeholder="••••••••" required icon={<Lock />} />
+              </div>
+              <div className="grid w-full items-center gap-1.5">
+                <Label htmlFor="confirm-password-signup">Confirm Password</Label>
+                <Input type="password" id="confirm-password-signup" name="confirmPassword" placeholder="••••••••" required icon={<Lock />} />
+              </div>
+              <Button type="submit">Create Account</Button>
+            </form>
+            <p className="text-center text-sm text-secondary-text">
+              Already have an account?{' '}
+              <button onClick={toggleFormType} className="font-medium text-primary-interactive hover:underline">
+                Sign In
+              </button>
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+

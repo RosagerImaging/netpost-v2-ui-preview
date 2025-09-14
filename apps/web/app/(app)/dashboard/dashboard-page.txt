@@ -1,0 +1,42 @@
+import { StatCard } from '@/components/dashboard/StatCard';
+import { SalesChart } from '@/components/dashboard/SalesChart';
+import { RecentActivity } from '@/components/dashboard/RecentActivity';
+import { DollarSign, Package, ShoppingCart, ShoppingBag } from 'lucide-react';
+
+/**
+ * The main dashboard page for the AI-Native Reselling Assistant.
+ * Provides a comprehensive overview of the user's business.
+ */
+export default function DashboardPage() {
+  const userName = "Jane"; // Placeholder for user's name
+
+  return (
+    <div className="w-full space-y-8">
+      {/* Page Header */}
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight text-primary-text">
+          Welcome Back, {userName}!
+        </h1>
+        <p className="mt-1 text-secondary-text">
+          Here&apos;s a snapshot of your reselling business.
+        </p>
+      </div>
+
+      {/* Main Grid Layout */}
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+        {/* Stat Cards */}
+        <StatCard title="Sales (Last 30 Days)" value="$1,250.75" icon={DollarSign} />
+        <StatCard title="Active Listings" value="142" icon={Package} />
+        <StatCard title="Items Sold (Last 30 Days)" value="31" icon={ShoppingCart} />
+        <StatCard title="Pending Orders" value="3" icon={ShoppingBag} />
+        
+        {/* Sales Chart and Recent Activity Feed */}
+        <div className="col-span-1 md:col-span-2 lg:col-span-4 grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <SalesChart />
+            <RecentActivity />
+        </div>
+      </div>
+    </div>
+  );
+}
+
