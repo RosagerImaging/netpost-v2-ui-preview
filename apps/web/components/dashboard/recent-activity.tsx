@@ -1,28 +1,28 @@
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@repo/ui/card';
-import { Tag, Zap, List } from 'lucide-react';
+import React from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@repo/ui/card";
+import { Tag, Zap, List } from "lucide-react";
 
 // Hardcoded placeholder data for recent activity
 const activityItems = [
   {
     icon: Tag,
-    text: 'Item Sold: Vintage Leather Jacket',
-    time: '2m ago',
+    text: "Item Sold: Vintage Leather Jacket",
+    time: "2m ago",
   },
   {
     icon: Zap,
-    text: 'New Offer on: Red Silk Scarf',
-    time: '15m ago',
+    text: "New Offer on: Red Silk Scarf",
+    time: "15m ago",
   },
   {
     icon: List,
-    text: 'Item Listed: Blue Denim Jeans',
-    time: '1h ago',
+    text: "Item Listed: Blue Denim Jeans",
+    time: "1h ago",
   },
-   {
+  {
     icon: Tag,
-    text: 'Item Sold: Retro Sunglasses',
-    time: '3h ago',
+    text: "Item Sold: Retro Sunglasses",
+    time: "3h ago",
   },
 ];
 
@@ -40,11 +40,13 @@ export const RecentActivity: React.FC = () => {
           {activityItems.map((item, index) => (
             <li key={index} className="flex items-center space-x-4">
               <div className="rounded-full bg-white/10 p-2">
-                  <item.icon className="h-5 w-5 text-secondary-text" />
+                <item.icon className="text-secondary-text h-5 w-5" />
               </div>
               <div className="flex-1">
-                <p className="text-sm font-medium text-primary-text">{item.text}</p>
-                <p className="text-xs text-secondary-text">{item.time}</p>
+                <p className="text-primary-text text-sm font-medium">
+                  {item.text}
+                </p>
+                <p className="text-secondary-text text-xs">{item.time}</p>
               </div>
             </li>
           ))}
@@ -53,4 +55,3 @@ export const RecentActivity: React.FC = () => {
     </Card>
   );
 };
-

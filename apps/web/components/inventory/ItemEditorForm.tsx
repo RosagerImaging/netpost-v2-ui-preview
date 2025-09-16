@@ -1,11 +1,11 @@
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@repo/ui/card';
-import { Label } from '@repo/ui/label';
-import { Input } from '@repo/ui/input';
-import { Textarea } from '@repo/ui/textarea';
-import { Button } from '@repo/ui/button';
-import { Sparkles } from 'lucide-react';
-import { ItemImageGallery } from '../item-detail-editor/image-gallery';
+import React from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@repo/ui/card";
+import { Label } from "@repo/ui/label";
+import { Input } from "@repo/ui/input";
+import { Textarea } from "@repo/ui/textarea";
+import { Button } from "@repo/ui/button";
+import { Sparkles } from "lucide-react";
+import { ItemImageGallery } from "../item-detail-editor/image-gallery";
 
 interface ItemEditorFormProps {
   item: {
@@ -41,13 +41,21 @@ export const ItemEditorForm: React.FC<ItemEditorFormProps> = ({ item }) => {
             </div>
             <div className="grid w-full items-center gap-1.5">
               <Label htmlFor="purchasePrice">Purchase Price ($)</Label>
-              <Input id="purchasePrice" type="number" defaultValue={item.purchasePrice} />
+              <Input
+                id="purchasePrice"
+                type="number"
+                defaultValue={item.purchasePrice}
+              />
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="grid w-full items-center gap-1.5">
               <Label htmlFor="listingPrice">Listing Price ($)</Label>
-              <Input id="listingPrice" type="number" defaultValue={item.listingPrice} />
+              <Input
+                id="listingPrice"
+                type="number"
+                defaultValue={item.listingPrice}
+              />
             </div>
           </div>
           <div className="grid w-full items-center gap-1.5">

@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from 'react';
-import Image from 'next/image';
-import { cn } from '@repo/lib';
+import React, { useState } from "react";
+import Image from "next/image";
+import { cn } from "@repo/lib";
 
 interface ItemImageGalleryProps {
   images: string[];
@@ -12,12 +12,15 @@ interface ItemImageGalleryProps {
 /**
  * A component to display an item's image gallery with a primary image and thumbnails.
  */
-export const ItemImageGallery: React.FC<ItemImageGalleryProps> = ({ images, title }) => {
-  const [primaryImage, setPrimaryImage] = useState(images[0] || '');
+export const ItemImageGallery: React.FC<ItemImageGalleryProps> = ({
+  images,
+  title,
+}) => {
+  const [primaryImage, setPrimaryImage] = useState(images[0] || "");
 
   if (!images || images.length === 0) {
     return (
-      <div className="aspect-square w-full rounded-lg bg-sidebar-bg flex items-center justify-center">
+      <div className="bg-sidebar-bg flex aspect-square w-full items-center justify-center rounded-lg">
         <span className="text-secondary-text">No Image</span>
       </div>
     );
@@ -41,7 +44,9 @@ export const ItemImageGallery: React.FC<ItemImageGalleryProps> = ({ images, titl
             onClick={() => setPrimaryImage(image)}
             className={cn(
               "aspect-square w-full overflow-hidden rounded-lg border-2 transition-all",
-              primaryImage === image ? 'border-primary-interactive' : 'border-transparent hover:border-white/50'
+              primaryImage === image
+                ? "border-primary-interactive"
+                : "border-transparent hover:border-white/50"
             )}
           >
             <Image
@@ -57,4 +62,3 @@ export const ItemImageGallery: React.FC<ItemImageGalleryProps> = ({ images, titl
     </div>
   );
 };
-

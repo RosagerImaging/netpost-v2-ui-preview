@@ -1,11 +1,11 @@
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@repo/ui/card';
-import { Label } from '@repo/ui/label';
-import { Input } from '@repo/ui/input';
-import { Textarea } from '@repo/ui/textarea';
-import { Button } from '@repo/ui/button';
-import { Sparkles } from 'lucide-react';
-import { ItemImageGallery } from './image-gallery';
+import React from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@repo/ui/card";
+import { Label } from "@repo/ui/label";
+import { Input } from "@repo/ui/input";
+import { Textarea } from "@repo/ui/textarea";
+import { Button } from "@repo/ui/button";
+import { Sparkles } from "lucide-react";
+import { ItemImageGallery } from "./image-gallery";
 
 interface ItemEditorFormProps {
   item: {
@@ -40,7 +40,11 @@ export const ItemEditorForm: React.FC<ItemEditorFormProps> = ({ item }) => {
             </div>
             <div className="grid w-full items-center gap-1.5">
               <Label htmlFor="purchasePrice">Purchase Price ($)</Label>
-              <Input id="purchasePrice" type="number" defaultValue={item.purchasePrice} />
+              <Input
+                id="purchasePrice"
+                type="number"
+                defaultValue={item.purchasePrice}
+              />
             </div>
           </div>
           <div className="grid w-full items-center gap-1.5">
@@ -58,4 +62,3 @@ export const ItemEditorForm: React.FC<ItemEditorFormProps> = ({ item }) => {
     </div>
   );
 };
-

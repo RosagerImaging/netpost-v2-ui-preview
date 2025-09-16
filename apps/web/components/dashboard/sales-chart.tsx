@@ -1,18 +1,26 @@
 "use client";
 
-import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { Card, CardContent, CardHeader, CardTitle } from '@repo/ui/card';
+import React from "react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
+import { Card, CardContent, CardHeader, CardTitle } from "@repo/ui/card";
 
 // Hardcoded placeholder data for the sales chart
 const salesData = [
-  { name: 'Mon', sales: 400 },
-  { name: 'Tue', sales: 300 },
-  { name: 'Wed', sales: 600 },
-  { name: 'Thu', sales: 800 },
-  { name: 'Fri', sales: 750 },
-  { name: 'Sat', sales: 1100 },
-  { name: 'Sun', sales: 900 },
+  { name: "Mon", sales: 400 },
+  { name: "Tue", sales: 300 },
+  { name: "Wed", sales: 600 },
+  { name: "Thu", sales: 800 },
+  { name: "Fri", sales: 750 },
+  { name: "Sat", sales: 1100 },
+  { name: "Sun", sales: 900 },
 ];
 
 /**
@@ -30,7 +38,11 @@ export const SalesChart: React.FC = () => {
             data={salesData}
             margin={{ top: 5, right: 20, left: -10, bottom: 5 }}
           >
-            <CartesianGrid strokeDasharray="3 3" stroke="#8E8E93" strokeOpacity={0.2} />
+            <CartesianGrid
+              strokeDasharray="3 3"
+              stroke="#8E8E93"
+              strokeOpacity={0.2}
+            />
             <XAxis
               dataKey="name"
               stroke="#8E8E93"
@@ -47,13 +59,13 @@ export const SalesChart: React.FC = () => {
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: '#1C1C1E',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                borderRadius: '0.75rem',
-                color: '#E5E5E5'
+                backgroundColor: "#1C1C1E",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
+                borderRadius: "0.75rem",
+                color: "#E5E5E5",
               }}
-              labelStyle={{ color: '#8E8E93' }}
-              cursor={{ fill: 'rgba(0, 191, 255, 0.1)' }}
+              labelStyle={{ color: "#8E8E93" }}
+              cursor={{ fill: "rgba(0, 191, 255, 0.1)" }}
             />
             <Bar dataKey="sales" fill="#00BFFF" radius={[4, 4, 0, 0]} />
           </BarChart>
@@ -62,4 +74,3 @@ export const SalesChart: React.FC = () => {
     </Card>
   );
 };
-

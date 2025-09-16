@@ -1,15 +1,15 @@
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import './globals.css';
-import { cn } from '@repo/lib';
-import Sidebar from '../components/shared/sidebar';
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import { cn } from "@repo/lib";
+import Sidebar from "../components/shared/sidebar";
 
 // Setup the Inter font
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'AI-Native Reselling Assistant',
-  description: 'Manage your reselling business with the power of AI.',
+  title: "AI-Native Reselling Assistant",
+  description: "Manage your reselling business with the power of AI.",
 };
 
 /**
@@ -26,7 +26,7 @@ export default function RootLayout({
       <body
         className={cn(
           inter.className,
-          'bg-[#111111] text-primary-text antialiased'
+          "text-primary-text bg-[#111111] antialiased"
         )}
       >
         <div className="flex">
@@ -34,7 +34,7 @@ export default function RootLayout({
           <Sidebar />
 
           {/* Main Content Area */}
-          <main className="flex-1 lg:p-8 p-4">
+          <main className="flex-1 p-4 lg:p-8">
             {/* The children prop will be replaced by page components */}
             {children}
           </main>
@@ -43,4 +43,3 @@ export default function RootLayout({
     </html>
   );
 }
-
