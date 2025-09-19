@@ -13,6 +13,10 @@ import {
   Menu,
   X,
   ChevronLeft,
+  Users,
+  BarChart3,
+  Activity,
+  Shield,
 } from "lucide-react";
 import { cn } from "@repo/lib";
 
@@ -25,6 +29,21 @@ const navItems = [
   { name: "Settings", href: "/settings", icon: Settings },
 ];
 
+// Admin navigation items - only visible to admin users
+const adminNavItems = [
+  { name: "Admin Dashboard", href: "/admin/subscriptions", icon: Shield },
+  { name: "User Management", href: "/admin/subscriptions/users", icon: Users },
+  { name: "Analytics", href: "/admin/subscriptions/analytics", icon: BarChart3 },
+  { name: "Monitoring", href: "/admin/subscriptions/monitoring", icon: Activity },
+];
+
+// TODO: Replace with actual admin check
+function isAdmin(): boolean {
+  // This would typically check the user's role from session/JWT
+  // For now, we'll return true for development
+  return true;
+}
+
 /**
  * The main sidebar component for navigation.
  * It is collapsible on smaller screens.
@@ -33,9 +52,57 @@ export default function Sidebar() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const userIsAdmin = isAdmin();
 
   const toggleMobileMenu = () => setMobileMenuOpen(!isMobileMenuOpen);
   const toggleSidebarCollapse = () => setSidebarCollapsed(!isSidebarCollapsed);
+
+  const renderNavItems = (items: typeof navItems, title?: string) => (
+    <>
+      {title && !isSidebarCollapsed && (
+        <div className="px-3 py-2">
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+            {title}
+          </p>
+        </div>
+      )}
+      {items.map((item) => {
+        const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
+        return (
+          <Link
+            key={item.name}
+            href={item.href}
+            className={cn(
+              "group text-secondary-text relative flex items-center rounded-md px-3 py-2.5 text-sm font-medium transition-all duration-200 ease-in-out hover:text-sky-400",
+              isActive && "text-sky-400",
+              isSidebarCollapsed ? "justify-center" : ""
+            )}
+          >
+            {/* Glow effect for active/hover states */}
+            <span
+              className={cn(
+                "absolute inset-0 rounded-md bg-sky-500/10 opacity-0 blur-md transition-opacity duration-300 group-hover:opacity-100",
+                isActive && "opacity-100"
+              )}
+            />
+            <item.icon
+              className={cn("h-5 w-5", !isSidebarCollapsed && "mr-3")}
+            />
+            {!isSidebarCollapsed && (
+              <span className="relative">{item.name}</span>
+            )}
+
+            {/* Tooltip for collapsed sidebar */}
+            {isSidebarCollapsed && (
+              <span className="text-primary-text absolute left-full ml-4 hidden -translate-y-1/2 rounded-md bg-gray-800 px-2 py-1 text-xs font-medium group-hover:block">
+                {item.name}
+              </span>
+            )}
+          </Link>
+        );
+      })}
+    </>
+  );
 
   const sidebarContent = (
     <div className="flex h-full flex-col">
@@ -52,42 +119,22 @@ export default function Sidebar() {
       </div>
 
       {/* Main Navigation */}
-      <nav className="flex-1 space-y-2 px-4 py-4">
-        {navItems.map((item) => {
-          const isActive = pathname === item.href;
-          return (
-            <Link
-              key={item.name}
-              href={item.href}
-              className={cn(
-                "group text-secondary-text relative flex items-center rounded-md px-3 py-2.5 text-sm font-medium transition-all duration-200 ease-in-out hover:text-sky-400",
-                isActive && "text-sky-400",
-                isSidebarCollapsed ? "justify-center" : ""
-              )}
-            >
-              {/* Glow effect for active/hover states */}
-              <span
-                className={cn(
-                  "absolute inset-0 rounded-md bg-sky-500/10 opacity-0 blur-md transition-opacity duration-300 group-hover:opacity-100",
-                  isActive && "opacity-100"
-                )}
-              />
-              <item.icon
-                className={cn("h-5 w-5", !isSidebarCollapsed && "mr-3")}
-              />
-              {!isSidebarCollapsed && (
-                <span className="relative">{item.name}</span>
-              )}
+      <nav className="flex-1 space-y-1 px-4 py-4 overflow-y-auto">
+        {renderNavItems(navItems)}
 
-              {/* Tooltip for collapsed sidebar */}
-              {isSidebarCollapsed && (
-                <span className="text-primary-text absolute left-full ml-4 hidden -translate-y-1/2 rounded-md bg-gray-800 px-2 py-1 text-xs font-medium group-hover:block">
-                  {item.name}
-                </span>
-              )}
-            </Link>
-          );
-        })}
+        {/* Admin Section */}
+        {userIsAdmin && (
+          <>
+            {!isSidebarCollapsed && (
+              <div className="pt-6">
+                <div className="h-px bg-gray-800 mx-3" />
+              </div>
+            )}
+            <div className="pt-4">
+              {renderNavItems(adminNavItems, "Administration")}
+            </div>
+          </>
+        )}
       </nav>
 
       {/* Footer - User Account */}
@@ -103,7 +150,7 @@ export default function Sidebar() {
           {!isSidebarCollapsed && (
             <div className="relative ml-3">
               <p className="text-primary-text font-semibold">John Doe</p>
-              <p className="text-xs">Account</p>
+              <p className="text-xs">Account {userIsAdmin && "• Admin"}</p>
             </div>
           )}
         </Link>
@@ -124,6 +171,41 @@ export default function Sidebar() {
         </button>
       </div>
     </div>
+  );
+
+  const renderMobileNavItems = (items: typeof navItems, title?: string) => (
+    <>
+      {title && (
+        <div className="px-3 py-2">
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+            {title}
+          </p>
+        </div>
+      )}
+      {items.map((item) => {
+        const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
+        return (
+          <Link
+            key={item.name}
+            href={item.href}
+            onClick={toggleMobileMenu}
+            className={cn(
+              "group text-secondary-text relative flex items-center rounded-md px-3 py-2.5 text-sm font-medium hover:text-sky-400",
+              isActive && "text-sky-400"
+            )}
+          >
+            <span
+              className={cn(
+                "absolute inset-0 rounded-md bg-sky-500/10 opacity-0 blur-md transition-opacity duration-300 group-hover:opacity-100",
+                isActive && "opacity-100"
+              )}
+            />
+            <item.icon className="mr-3 h-5 w-5" />
+            <span className="relative">{item.name}</span>
+          </Link>
+        );
+      })}
+    </>
   );
 
   return (
@@ -159,7 +241,6 @@ export default function Sidebar() {
           className="fixed top-0 left-0 h-full w-72 max-w-[80vw] border-r border-gray-800 bg-[#1C1C1E]"
           onClick={(e) => e.stopPropagation()}
         >
-          {/* We need to render the sidebar content but without the collapse toggle */}
           <div className="flex h-full flex-col">
             <div className="flex h-16 items-center border-b border-gray-800 px-6">
               <Link
@@ -172,27 +253,20 @@ export default function Sidebar() {
                 </span>
               </Link>
             </div>
-            <nav className="flex-1 space-y-2 px-4 py-4">
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  onClick={toggleMobileMenu}
-                  className={cn(
-                    "group text-secondary-text relative flex items-center rounded-md px-3 py-2.5 text-sm font-medium hover:text-sky-400",
-                    pathname === item.href && "text-sky-400"
-                  )}
-                >
-                  <span
-                    className={cn(
-                      "absolute inset-0 rounded-md bg-sky-500/10 opacity-0 blur-md transition-opacity duration-300 group-hover:opacity-100",
-                      pathname === item.href && "opacity-100"
-                    )}
-                  />
-                  <item.icon className="mr-3 h-5 w-5" />
-                  <span className="relative">{item.name}</span>
-                </Link>
-              ))}
+            <nav className="flex-1 space-y-1 px-4 py-4 overflow-y-auto">
+              {renderMobileNavItems(navItems)}
+
+              {/* Admin Section for Mobile */}
+              {userIsAdmin && (
+                <>
+                  <div className="pt-6">
+                    <div className="h-px bg-gray-800 mx-3" />
+                  </div>
+                  <div className="pt-4">
+                    {renderMobileNavItems(adminNavItems, "Administration")}
+                  </div>
+                </>
+              )}
             </nav>
             <div className="mt-auto border-t border-gray-800 p-4">
               <Link
@@ -203,7 +277,7 @@ export default function Sidebar() {
                 <UserCircle className="h-8 w-8 rounded-full" />
                 <div className="relative ml-3">
                   <p className="text-primary-text font-semibold">John Doe</p>
-                  <p className="text-xs">Account</p>
+                  <p className="text-xs">Account {userIsAdmin && "• Admin"}</p>
                 </div>
               </Link>
             </div>
